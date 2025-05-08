@@ -14,3 +14,26 @@ function filterByRating(items: iRating[]): iRating[] {
 function concatenateArrays<T>(...arrays: T[][]): T[] {
   return arrays.flat();
 }
+
+class Vehicle {
+  constructor(private make: string, private year: number) {}
+
+  getInfo(): string {
+    return `Make: ${this.make}, Year: ${this.year}`;
+  }
+}
+
+class Car extends Vehicle {
+  constructor(make: string, year: number, private model: string) {
+    super(make, year);
+  }
+
+  getModel(): string {
+    return `Model: ${this.model}`;
+  }
+}
+
+const myCar = new Car("Toyota", 2020, "Corolla");
+
+const processValue = (value: string | number): number =>
+  typeof value === "string" ? value.length : value * 2;

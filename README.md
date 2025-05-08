@@ -30,7 +30,7 @@ function greet(user) {
   return `Hello, ${user.name}`;
 }
 
-greet({ name: "Alice" }); // ✅ Works
+greet({ name: "Urmi" }); // ✅ Works
 greet("Just a string"); // 😨 Breaks at runtime!
 ```
 
@@ -46,7 +46,7 @@ function greet(user: User): string {
   return `Hello, ${user.name}`;
 }
 
-greet({ name: "Alice", id: 101 }); // ✅ Works
+greet({ name: "Urmi", id: 101 }); // ✅ Works
 greet("Just a string"); // ❌ Error at compile time
 ```
 
@@ -93,6 +93,82 @@ With TypeScript:
 
 ---
 
-## 🎯 Final Thoughts
+## 🎯 Conclusion
 
 Think of TypeScript as your project's security gate. It doesn't allow unknown or malformed data to sneak into your application. Just like your office door scanner knows exactly who you are, TypeScript knows exactly what your data looks like, and expects it to match.
+
+# 🤝 Union vs Intersection Types in TypeScript
+
+Understanding how **union** and **intersection** types work in TypeScript can feel confusing at first. Let me explain it with a simple story I tell my students.
+
+## 🧍 Meet Arnab — A Developer and a Gamer
+
+Imagine **Arnab** walks into a room.
+
+- Sometimes he's there **as a developer**
+- Sometimes he's there **as a gamer**
+- But occasionally, he's **both at the same time**
+
+## 1. 🧢 Union Type — Either One
+
+With a **union**, Arnab can **either be a developer OR a gamer**, but not necessarily both.
+
+```typescript
+type Developer = {
+  code: () => void;
+};
+
+type Gamer = {
+  play: () => void;
+};
+
+// Union type: Arnab can be Developer OR Gamer
+type Arnab = Developer | Gamer;
+
+function whatCanArnabDo(person: Arnab) {
+  // Only safe access: nothing, unless we check
+  if ("code" in person) {
+    person.code();
+  } else {
+    person.play();
+  }
+}
+```
+
+✅ Useful when something can be **one of several types**, but you need to check what exactly it is.
+
+## 2. 🎩 Intersection Type — All in One
+
+Now, imagine Arnab comes in as **both a developer AND a gamer**.
+
+```typescript
+type Developer = {
+  code: () => void;
+};
+
+type Gamer = {
+  play: () => void;
+};
+
+// Intersection type: Arnab is both Developer AND Gamer
+type Arnab = Developer & Gamer;
+
+const Arnab: Arnab = {
+  code: () => console.log("Writing code..."),
+  play: () => console.log("Playing games..."),
+};
+
+Arnab.code(); // ✅
+Arnab.play(); // ✅
+```
+
+✅ Useful when something **must have multiple traits** at the same time.
+
+## 🧠 Conclusion
+
+- **Union** types are like giving someone **one of many roles**.
+- **Intersection** types are like giving someone **all the roles at once**.
+
+So next time you define a type, ask:
+
+> Do I need "either/or" (union) or "everything together" (intersection)?
